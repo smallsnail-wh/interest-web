@@ -22,6 +22,31 @@ const routers = [
 	    component: (resolve) => require(['./views/template/home.vue'], resolve)
 	},
 	{
+	    path: '/index',
+	    meta: {
+	        title: 'smallsnail-wh'
+	    },
+	    component: (resolve) => require(['./views/template/index.vue'], resolve),
+	    children: [
+	    	{
+	    		path: 'home',
+                name: 'home',
+                component: (resolve) => require(['./views/template/home.vue'], resolve),
+                meta: {
+                    title:"home"
+                }
+	    	},
+	    	{
+	    		path: 'welcome',
+                name: 'welcome',
+                component: (resolve) => require(['./views/sys/welcome.vue'], resolve),
+                meta: {
+                    title:"welcome"
+                }
+	    	}
+	    ]
+	},
+	{
 	    path: '/base',
 	    meta: {
 	        title: 'base',

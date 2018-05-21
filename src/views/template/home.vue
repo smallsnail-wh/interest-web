@@ -1,15 +1,47 @@
 <template>
     <div class="home">
         <div >
-            <Carousel autoplay v-model="value2" loop height="550px">
+            <Carousel autoplay v-model="value2" loop >
                 <CarouselItem>
-                    <img class="images-con" src="../../images/pi1.jpg">
+                    <img :style="{height:'550px'}" class="images-con" src="../../images/动漫.jpg">
                 </CarouselItem>
                 <CarouselItem>
-                    <img class="images-con" src="../../images/pi2.jpg">
+                    <img :style="{height:'550px'}" class="images-con" src="../../images/吉他1.jpg">
+                </CarouselItem>
+                <CarouselItem>
+                    <img :style="{height:'550px'}" class="images-con" src="../../images/滑板1.jpg">
                 </CarouselItem>
             </Carousel>
         </div>
+
+        <div class="box-flex flex-direction-column margin-top-2">
+            <div class="box-flex width-80 margin-auto" v-for="(A,index) in HomeArticle">
+               <div class="box-flex width-100" v-if="index%2==0"> 
+                <div class="flex-1">
+                  <img class="images-con imgpic" v-bind:src="(A.img_group[0].photopath)" >
+                </div>
+                <div class="box-flex flex-1 padding-all flex-direction-column">
+                    <router-link :to="('/detail/'+A._id)">
+                    <span class="tirtleFont lineThrou">{{A.tirtle}}</span>
+                    </router-link>
+                    <span class="contentFont">{{A.info}}</span>
+                </div>
+               </div>
+               <div class="box-flex width-100" v-else> 
+                <div class="box-flex flex-1 padding-all flex-direction-column">
+                    <router-link :to="('/detail/'+A._id)">
+                      <span class="tirtleFont lineThrou">{{A.tirtle}}</span>
+                    </router-link>
+                    <span class="contentFont">{{A.info}}</span>
+                </div>
+                <div class="flex-1">
+                  <img class="images-con imgpic" v-vind:src="A.img_group[0].photopath" >
+                  <!-- <img class="images-con imgpic" src="../../images/吉他1.jpg" > -->
+                </div>
+               </div>
+            </div>
+        </div>
+
     </div>
 </template>
 <script>
@@ -17,18 +49,22 @@
         data(){
             return {
                 value2: 0,
-                formLogin:{
-                    userName: null,
-                    password: null
-                },
-                ruleLogin: {
-                        userName: [
-                            { required: true, message: '请填写用户名', trigger: 'blur' }
-                        ],
-                        password: [
-                            { required: true, message: '请填写密码', trigger: 'blur' },
-                        ]
-                }
+                HomeArticle: [
+                    {
+                        "img_group":[{"photopath":"/static/images/吉他1.jpg"}],
+                        "_id":"1",
+                        "tirtle":"test",
+                        "info":"this is test",
+
+                    },
+                    {
+                        "img_group":[{"photopath":"/static/images/吉他1.jpg"}],
+                        "_id":"1",
+                        "tirtle":"test",
+                        "info":"this is test",
+                        
+                    }
+                ],
             }
         },
         methods: {
