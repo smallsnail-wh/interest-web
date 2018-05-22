@@ -6,7 +6,7 @@ import router from './router'
 axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.common['Authorization'] = 'bearer '+ localStorage.getItem("currentUser_token");
-axios.defaults.baseURL = '/weiguang';
+axios.defaults.baseURL = '/bishe';
 
 // http request 拦截器
 /*axios.interceptors.request.use(
@@ -39,7 +39,7 @@ axios.interceptors.response.use(
                 case 403:
                     // 403 无权限，跳转到首页
                     router.replace({
-                        path: '/base/welcome',
+                        path: '/page',
                         query: {redirect: router.currentRoute.fullPath}
                     });
                     break;

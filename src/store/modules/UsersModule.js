@@ -46,7 +46,7 @@ export default {
                 context.commit('setUser',{"user_name":user_name,"user_token":response.data.access_token,"refresh_token":response.data.refresh_token});
                 /*router.push({path:"base"});*/
                 axios.defaults.headers.common['Authorization'] = 'bearer '+ localStorage.getItem("currentUser_token");
-                router.push({ path: 'base/welcome' }) ;
+                router.push({ path: '/page/home' }) ;
                 context.commit('setSignFalse',null,{root: true});
                 /*this.$route.router.push({ path: '/base' });*/
             }).catch(function(error){

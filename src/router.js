@@ -15,14 +15,14 @@ const routers = [
 	    component: (resolve) => require(['./views/index.vue'], resolve)
 	},
 	{
-	    path: '/home',
+	    path: '/register',
 	    meta: {
 	        title: 'smallsnail-wh'
 	    },
-	    component: (resolve) => require(['./views/template/home.vue'], resolve)
+	    component: (resolve) => require(['./views/template/register.vue'], resolve)
 	},
 	{
-	    path: '/index',
+	    path: '/page',
 	    meta: {
 	        title: 'smallsnail-wh'
 	    },
@@ -34,6 +34,22 @@ const routers = [
                 component: (resolve) => require(['./views/template/home.vue'], resolve),
                 meta: {
                     title:"home"
+                }
+	    	},
+	    	{
+	    		path: 'home/:title',
+                name: 'home',
+                component: (resolve) => require(['./views/template/home.vue'], resolve),
+                meta: {
+                    title:"home"
+                }
+	    	},
+	    	{
+	    		path: 'detail/:id',
+                name: 'detail',
+                component: (resolve) => require(['./views/template/detail.vue'], resolve),
+                meta: {
+                    title:"detail"
                 }
 	    	},
 	    	{

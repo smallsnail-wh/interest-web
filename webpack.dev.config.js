@@ -17,13 +17,13 @@ module.exports = merge(webpackBaseConfig, {
         inline: true,
         hot: true,
         proxy:{
-            '/weiguang/*':
+            '/bishe':
             {
-                target: 'http://localhost:8080',  
+                target: 'http://localhost:8090',  
                 secure: false  
             }
         },
-        port: 8088
+        port: 8099
     },
     output: {
         publicPath: '/dist/',

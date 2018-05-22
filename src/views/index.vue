@@ -6,17 +6,18 @@
         bottom: 0;
         left: 0;
         text-align: center;
+        background-image: url(../images/背景图片.jpg);
     }
     .index .ivu-row-flex {
         height: 100%;
     }
-    #index_pc_bj{width:100%;height:100%;background-size:cover;overflow: hidden;background-image: url(../images/login.jpg);background-position:center center;box-shadow: 0 0px 3px rgba(0,0,0,.5);text-align: center;}
+    #index_pc_bj{width:100%;height:auto;background-size:cover;overflow: hidden;background-position:center center;/*box-shadow: 0 0px 3px rgba(0,0,0,.5);*/text-align: center;}
     /*具体内容*/
-    .wrap_conter ul{position:relative;width:300px;/*border:5px solid rgba(255,255,255,0.3);*/border-radius:5px;box-shadow: 0 0px 5px rgba(0,0,0,.2); margin-top: 10%; margin-left: 40%; text-align:center;}
+    .wrap_conter ul{position:relative;width:300px;/*border:5px solid rgba(255,255,255,0.3);*/border-radius:5px;background: #fff;/*box-shadow: 0 0px 5px rgba(0,0,0,.2);*/ margin-top: 20%; margin-left: 60%; text-align:center;}
     .wrap_conter li{text-align:center;color:#fff;font-size:12px;line-height:30px; padding:0 25px 5px 25px;width: 100%;}
-    .wrap_conter li h2{color:#FFFFFF;font-size:20px;line-height:40px; display:block; text-align:center; padding:20px 0 5px 0}
+    .content{color:#1c2438;line-height:40px; display:block; text-align:left; padding:5px 0 0 0;margin: 0 80px 0 20px;}
     .pc-hign{height:75px;display: inline-table;}
-    .wrap_conter li dl{width:100%;}
+    .wrap_conter li dl{width:100%;margin-top: 20px}
     .name-password-error{
         padding-bottom: 2px;
         text-align: left;
@@ -30,7 +31,13 @@
             <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
                 <div class="wrap_conter">
                     <ul>
-                        <li><h2>用户登录</h2></li>
+                        <li style="border-bottom: 1px solid #e9eaec;">
+                            <div class="content">
+                                <img src="../images/图标.jpg" style="width: 40px;height: 40px;" align="absmiddle">
+                                <span style="float:right;font-size: 15px"><Icon type="log-out"></Icon>欢迎登录</span>
+                                </img>
+                            </div>
+                        </li>
                         <li>
                             <div class="name-password-error" v-if="this.$store.state.ifSign">用户名或密码错误</div>
                             <dl>
@@ -45,6 +52,11 @@
                                 </FormItem>
                                 <FormItem>
                                     <Button type="primary" @click="login('formLogin')" style="width: 250px">登录</Button>
+                                    <div style="width: 250px">
+                                        <a @click="register()" style="{right: 26px;color: #2e82ff;}">
+                                            <h5>立即注册</h5>
+                                        </a>
+                                    </div>
                                 </FormItem>
                             </dl>
                         </li>
@@ -79,6 +91,9 @@
                         this.$store.dispatch('users/userLogin',{"user_name":this.formLogin.userName,"user_password":this.formLogin.password,"router":this.$router});
                     }
                 })
+            },
+            register(){
+                this.$router.push({path:'/register'});
             }
         }
     };
