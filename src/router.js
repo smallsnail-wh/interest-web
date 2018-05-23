@@ -53,6 +53,14 @@ const routers = [
                 }
 	    	},
 	    	{
+	    		path: 'card/:id',
+                name: 'card',
+                component: (resolve) => require(['./views/template/card.vue'], resolve),
+                meta: {
+                    title:"card"
+                }
+	    	},
+	    	{
 	    		path: 'welcome',
                 name: 'welcome',
                 component: (resolve) => require(['./views/sys/welcome.vue'], resolve),

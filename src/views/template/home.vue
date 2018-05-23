@@ -25,9 +25,9 @@
                 </div>
                 <div class="box-flex flex-1 padding-all flex-direction-column">
                     <router-link :to="('/page/detail/'+A.id)">
-                    <span class="tirtleFont lineThrou">{{A.title}}</span>
+                        <span class="tirtleFont lineThrou">{{A.title}}</span>
                     </router-link>
-                    <span class="contentFont">{{A.content}}</span>
+                    <span class="contentFont">{{A.info}}</span>
                 </div>
                </div>
                <div class="box-flex width-100" v-else> 
@@ -35,7 +35,7 @@
                     <router-link :to="('/page/detail/'+A.id)">
                       <span class="tirtleFont lineThrou">{{A.title}}</span>
                     </router-link>
-                    <span class="contentFont">{{A.content}}</span>
+                    <span class="contentFont">{{A.info}}</span>
                 </div>
                 <div class="flex-1">
                   <!-- <img class="images-con imgpic" v-vind:src="A.img_group[0].photopath" > -->
