@@ -25,9 +25,11 @@
         
     }
     .layout-nav{
-        width: 315px;
+        /*width: 315px;
         margin: 0 auto;
-        margin-right: 20px;
+        margin-right: 20px;*/
+        height: inherit;
+        float: right;
     }
     .layout-footer-center{
         text-align: center;
@@ -37,29 +39,35 @@
     <div class="layout">
     	<Layout>
             <Header style="position: fixed;width: 100%;background:#fff;padding:0 0;z-index: 1000; ">
-                <Menu mode="horizontal" theme="light"  :style="{height:'64px',width:'100%'}" @on-select="m=>{menuSelect(m)}">
-                    <div class="layout-logo">
-                        <a @click="backHome()">
-                            <img src="../../images/图标.jpg" style="width: 50px;height: 50px;margin-left: 50px;" align="absmiddle">
-                        </img>
-                        </a>
-                    </div>
-                    <div class="layout-search">
-                        <Input v-model="searchValue" icon="android-search" placeholder="Enter something..." @on-enter="search()"></Input>
-                    </div>
-                    <div class="layout-nav">
-                        <MenuItem name="1">
-                            <Icon type="ios-person"></Icon>
-                            {{user.name}}
-                        </MenuItem>
-                        <MenuItem name="2">
-                            <Icon type="ios-email"></Icon>
-                            邮件
-                        </MenuItem>
-                        <MenuItem name="3">
-                            <Icon type="log-out"></Icon>
-                            退出
-                        </MenuItem>
+                <Menu mode="horizontal" theme="light"  :style="{height:'65px',width:'100%'}" @on-select="m=>{menuSelect(m)}">
+                    <div style="width: 95%;margin: 0 auto">
+                        <div class="layout-logo">
+                            <a @click="backHome()">
+                                <img src="../../images/图标.jpg" style="width: 50px;height: 50px;" align="absmiddle">
+                                </img>
+                            </a>
+                        </div>
+                        <div class="layout-search">
+                            <Input v-model="searchValue" icon="android-search" placeholder="Enter something..." @on-enter="search()"></Input>
+                        </div>
+                        <div class="layout-nav">
+                            <MenuItem name="1">
+                                <Icon type="ios-person"></Icon>
+                                {{user.name}}
+                            </MenuItem>
+                            <MenuItem name="2">
+                                <Icon type="ios-email"></Icon>
+                                邮件
+                            </MenuItem>
+                            <MenuItem name="3">
+                                <Icon type="log-out"></Icon>
+                                退出
+                            </MenuItem>
+                            <MenuItem name="4" v-if="consoleFlag">
+                                <Icon type="gear-b"></Icon>
+                                控制台
+                            </MenuItem>
+                        </div>
                     </div>
                 </Menu>
             </Header>
@@ -155,6 +163,7 @@
     export default {
         data(){
             return {
+                consoleFlag: false,
                 loading: true,
                 searchValue:'',
                 emailModal:false,
@@ -247,8 +256,11 @@
                 url: '/user'
             }).then(function (response) {
                 this.userSet(response.data);
+                if(response.data.usertype == 1){
+                    this.consoleFlag = true;
+                }
             }.bind(this)).catch(function (error) {
-                this.$Message.error('登录名已存在');
+                this.$Message.error('无权限');
             }.bind(this));
         },
         methods:{
@@ -284,6 +296,8 @@
                     this.emailModal = true;
                 }else if (e==3) {
                     this.$store.dispatch('users/loginOUt',{"router":this.$router});
+                }else if(e == 4){
+                    this.$router.push("/base");
                 }
             },
             backHome(){

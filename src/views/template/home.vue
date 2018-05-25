@@ -3,13 +3,16 @@
         <div >
             <Carousel autoplay v-model="value2" loop >
                 <CarouselItem>
-                    <img :style="{height:'550px'}" class="images-con" src="../../images/动漫.jpg">
+                    <img :style="{height:'550px'}" class="images-con" src="../../images/bg1.jpg">
                 </CarouselItem>
                 <CarouselItem>
-                    <img :style="{height:'550px'}" class="images-con" src="../../images/吉他1.jpg">
+                    <img :style="{height:'550px'}" class="images-con" src="../../images/view2.jpg">
                 </CarouselItem>
                 <CarouselItem>
-                    <img :style="{height:'550px'}" class="images-con" src="../../images/滑板1.jpg">
+                    <img :style="{height:'550px'}" class="images-con" src="../../images/view3.jpg">
+                </CarouselItem>
+                <CarouselItem>
+                    <img :style="{height:'550px'}" class="images-con" src="../../images/view4.jpg">
                 </CarouselItem>
             </Carousel>
         </div>

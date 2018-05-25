@@ -11,7 +11,7 @@
         <div>
             <ul>
                 <li>
-                    <Button type="primary" icon="plus-round" @click="openNewModal()">新建</Button>
+                    <!-- <Button type="primary" icon="plus-round" @click="openNewModal()">新建</Button> -->
                     <Button type="success" icon="wrench" @click="openModifyModal()">修改</Button>
                     <Button type="error" icon="trash-a" @click="del()">删除</Button>
                 </li>
@@ -28,7 +28,7 @@
             </ul>
         </div>
         <!--添加modal-->  
-        <Modal :mask-closable="false" :visible.sync="newModal" :loading = "loading" v-model="newModal" width="600" title="新建" @on-ok="newOk('userNew')" @on-cancel="cancel()">
+        <!-- <Modal :mask-closable="false" :visible.sync="newModal" :loading = "loading" v-model="newModal" width="600" title="新建" @on-ok="newOk('userNew')" @on-cancel="cancel()">
             <Form ref="userNew" :model="userNew" :rules="ruleNew" :label-width="80" >
                 <Row>
                     <Col span="12">
@@ -62,44 +62,48 @@
                     </Col>
                 </Row>
             </Form>
-        </Modal>
+        </Modal> -->
         <!--修改modal-->  
-        <Modal :mask-closable="false" :visible.sync="modifyModal" :loading = "loading" v-model="modifyModal" width="600" title="修改" @on-ok="modifyOk('userModify')" @on-cancel="cancel()">
-             <Form ref="userModify" :model="userModify" :rules="ruleModify" :label-width="80" >
+        <Modal :mask-closable="false" :visible.sync="modifyModal" v-model="modifyModal" width="600" title="修改" @on-ok="modifyOk()" @on-cancel="cancel()">
+             <Form :label-width="80" >
                 <Row>
                     <Col span="12">
-                        <Form-item label="登录名:" prop="loginName">
-                            <Input v-model="userModify.loginName" style="width: 204px"/>
+                        <Form-item label="登录名:">
+                            <Input v-model="userModify.loginName" style="width: 204px" disabled="disabled" />
                         </Form-item>
                     </Col>
-                    <Col span="12">
+                    <!-- <Col span="12">
                         <Form-item label="用户名:" prop="name">
                             <Input v-model="userModify.name" style="width: 204px"/>
                         </Form-item>
-                    </Col>
+                    </Col> -->
                 </Row>
-                <Row>
+                <!-- <Row>
                     <Col span="12">
                         <Form-item label="密码:" prop="password">
                             <Input v-model="userModify.password" type="password" style="width: 204px"/>
                         </Form-item>
                     </Col>
-                </Row>
+                </Row> -->
                 <Row>
                     <Col span="12">
-                        <Form-item label="邮箱:" prop="email">
-                            <Input v-model="userModify.email" style="width: 204px"/>
+                        <Form-item label="用户类型:">
+                            <Select v-model="userModify.usertype" style="width:200px">
+                                <Option  :value="0">普通用户</Option>
+                                <Option  :value="1">管理员</Option>
+                            </Select>
+                            <!-- <Input v-model="userModify.email" style="width: 204px"/> -->
                         </Form-item>
                     </Col>
                 </Row>
             </Form>
         </Modal>
         <!--配置角色modal-->  
-        <Modal v-model="roleModal" width="500" title="角色配置" @on-ok="roleOk()" @on-cancel="cancel()">
+        <!-- <Modal v-model="roleModal" width="500" title="角色配置" @on-ok="roleOk()" @on-cancel="cancel()">
             <div>
                 <Table border :columns="columns2" :data="data2" :height="260"  @on-selection-change="s=>{change2(s)}"></Table>
             </div>
-        </Modal>
+        </Modal> -->
     </div>
 </template>
 <script>
@@ -147,11 +151,8 @@
                 },
                 /*用于修改的user实体*/
                 userModify:{
-                	id:null,
-					name:null,
 					loginName:null,
-					password:null,
-					email:null
+					usertype:null
                 },
                 /*新建验证*/
                 ruleNew:{
@@ -204,26 +205,24 @@
                         key: 'name'
                     },
                     {
-                        title: '邮箱',
-                        key: 'email'
+                        title: '学院',
+                        key: 'college'
                     },
                     {
-                        title: '操作',
+                        title: '用户类型',
                         align: 'center',
-                        key: 'action',
+                        key: 'usertype',
                         render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'info',
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.relationSet(params.row);
-                                        }
-                                    }
-                                },'配置角色')
-                            ]);
+                            if(params.row.usertype == 0){
+                               return h('div', [
+                                    h('strong', null,'普通用户')
+                                ]); 
+                           }else if(params.row.usertype == 1){
+                                return h('div', [
+                                    h('strong', null,'管理员')
+                                ]); 
+                           }
+                            
                         }
                     },
                 ],
@@ -320,10 +319,8 @@
             /*userModify设置*/
             userModifySet(e){
                 this.userModify.id = e.id;
-                this.userModify.name = e.name;
                 this.userModify.loginName = e.loginName;
-                this.userModify.password = e.password;
-                this.userModify.email = e.email;
+                this.userModify.usertype = e.usertype;
             },
             /*得到表数据*/
             getTable(e) {
@@ -416,36 +413,57 @@
                 }
             },
             /*修改modal的modifyOk点击事件*/
-             modifyOk (userModify) { 
-                this.$refs[userModify].validate((valid) => {
-                    if (valid) {
-                        this.initUser();
-                        this.userSet(this.userModify);
-                        this.axios({
-                          method: 'put',
-                          url: '/users/'+this.user.id,
-                          data: this.user
-                        }).then(function (response) {
-                            this.initUserNew();
-                            this.getTable({
-                                "pageInfo":this.pageInfo,
-                                "loginName":this.loginName
-                            });
-                            this.$Message.info('修改成功');
-                        }.bind(this)).catch(function (error) {
-                          alert(error);
-                        });  
-                        this.modifyModal = false;
-                    }else {
-                        this.$Message.error('表单验证失败!');
-                        setTimeout(() => {
-                            this.loading = false;
-                            this.$nextTick(() => {
-                                this.loading = true;
-                            });
-                        }, 1000);
-                    }
-                })
+             modifyOk () { 
+                // this.initUser();
+                // this.userSet(this.userModify);
+                this.axios({
+                  method: 'put',
+                  url: '/users/user',
+                  data: {
+                    "loginName": this.userModify.loginName,
+                    "usertype": this.userModify.usertype,
+                    "id": this.userModify.id
+                  }
+                }).then(function (response) {
+                    this.initUserNew();
+                    this.getTable({
+                        "pageInfo":this.pageInfo,
+                        "loginName":this.loginName
+                    });
+                    this.$Message.info('修改成功');
+                }.bind(this)).catch(function (error) {
+                  alert(error);
+                });  
+                this.modifyModal = false;
+                // this.$refs[userModify].validate((valid) => {
+                //     if (valid) {
+                //         this.initUser();
+                //         this.userSet(this.userModify);
+                //         this.axios({
+                //           method: 'put',
+                //           url: '/users/'+this.user.id,
+                //           data: this.user
+                //         }).then(function (response) {
+                //             this.initUserNew();
+                //             this.getTable({
+                //                 "pageInfo":this.pageInfo,
+                //                 "loginName":this.loginName
+                //             });
+                //             this.$Message.info('修改成功');
+                //         }.bind(this)).catch(function (error) {
+                //           alert(error);
+                //         });  
+                //         this.modifyModal = false;
+                //     }else {
+                //         this.$Message.error('表单验证失败!');
+                //         setTimeout(() => {
+                //             this.loading = false;
+                //             this.$nextTick(() => {
+                //                 this.loading = true;
+                //             });
+                //         }, 1000);
+                //     }
+                // })
             },
             /*modal的cancel点击事件*/
             cancel () {

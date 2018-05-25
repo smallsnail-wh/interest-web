@@ -32,7 +32,7 @@
                         <p>{{item.content}}</p>
                         <span>
                             <Icon type="ios-time"></Icon>
-                            {{item.createtime}}
+                            {{item.replytime}}
                         </span>
                     </div>
                 </Card>
@@ -113,7 +113,7 @@
             },
             listDateSet(e){
                 for (var i = e.length - 1; i >= 0; i--) {
-                    e[i].createtime = this.dateGet(e[i].createtime);
+                    e[i].replytime = this.dateGet(e[i].replytime);
                 }
             },
             getPostCard(e){

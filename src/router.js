@@ -38,7 +38,7 @@ const routers = [
 	    	},
 	    	{
 	    		path: 'home/:title',
-                name: 'home',
+                name: 'home2',
                 component: (resolve) => require(['./views/template/home.vue'], resolve),
                 meta: {
                     title:"home"
@@ -59,14 +59,6 @@ const routers = [
                 meta: {
                     title:"card"
                 }
-	    	},
-	    	{
-	    		path: 'welcome',
-                name: 'welcome',
-                component: (resolve) => require(['./views/sys/welcome.vue'], resolve),
-                meta: {
-                    title:"welcome"
-                }
 	    	}
 	    ]
 	},
@@ -84,6 +76,30 @@ const routers = [
                 component: (resolve) => require(['./views/sys/welcome.vue'], resolve),
                 meta: {
                     title:"welcome"
+                }
+	    	},
+	    	{
+	    		path: 'user',
+                name: 'user',
+                component: (resolve) => require(['./views/sys/user.vue'], resolve),
+                meta: {
+                    title:"user"
+                }
+	    	},
+	    	{
+	    		path: 'email',
+                name: 'email',
+                component: (resolve) => require(['./views/sys/email.vue'], resolve),
+                meta: {
+                    title:"email"
+                }
+	    	},
+	    	{
+	    		path: 'card',
+                name: 'cardmanage',
+                component: (resolve) => require(['./views/sys/card.vue'], resolve),
+                meta: {
+                    title:"card"
                 }
 	    	}
 	    ]
