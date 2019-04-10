@@ -31,7 +31,7 @@ export default {
     userLogin(context, { user_name, user_password, router }) {
       axios({
         method: "post",
-        url: "/oauth/token",
+        url: "/interest/auth/oauth/token",
         params: {
           username: user_name,
           password: user_password,

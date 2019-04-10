@@ -14,7 +14,7 @@ if (
   axios.defaults.headers.common["Authorization"] =
     "bearer " + localStorage.getItem("currentUser_token");
 }
-axios.defaults.baseURL = "/interest";
+axios.defaults.baseURL = "/api";
 
 // http request 拦截器
 /*axios.interceptors.request.use(

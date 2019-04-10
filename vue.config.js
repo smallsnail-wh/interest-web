@@ -49,12 +49,17 @@ module.exports = {
   devServer: {
     compress: true,
     host: "0.0.0.0",
-    port: 8088,
+    port: 8090,
     hotOnly: false,
     proxy: {
-      "/interest": {
-        target: "http://localhost:8080",
-        secure: false
+      "/api": {
+        target: 'http://127.0.0.1:8081',
+        secure: false,
+        ws: false,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '' // rewrite path
+        }
       }
     } // 设置代理
     // before: app => {}

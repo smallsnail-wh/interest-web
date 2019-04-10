@@ -14,8 +14,8 @@ export default new Vuex.Store({
     ],
     /*域名*/
     // 测试
-    domainName: 'http://127.0.0.1:8088',
-    userUrlPre: "http://127.0.0.1:8088/page/user/",
+    domainName: 'http://127.0.0.1:8090',
+    userUrlPre: "http://127.0.0.1:8090/page/user/",
     //生产
     // domainName: "https://www.lovemtt.com",
     // userUrlPre: "https://www.lovemtt.com/page/user/",
