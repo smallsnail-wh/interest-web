@@ -1,13 +1,13 @@
 <template>
-	<div style="margin: 20px;">
+	<div style="margin: 40px;">
         <div>
             <ul>
-                <li>
-                    <Button type="error" icon="md-trash" @click="del()">删除</Button>
+            	<li>
+                    <Button type="error" icon="trash-a" @click="del()">删除</Button>
                 </li>
                 <li>
                     <div style="padding: 10px 0;">
-                    	<Table border :columns="columns1" :data="data1" :height="400" @on-selection-change="s=>{change(s)}" @on-row-dblclick="s=>{dblclick(s)}"></Table>
+                    	<Table border :columns="columns1" :data="data1" :height="400" @on-selection-change="s=>{change(s)}"></Table>
                     </div> 
                 </li>
                 <li>
@@ -19,12 +19,12 @@
         </div>
         <Modal :mask-closable="false" :visible.sync="modal" v-model="modal" width="600" title="查看">
 	        <Form :label-width="80" >
-	        	<Form-item label="用户名:">
-	        		<strong>{{email.username}}</strong>
+	        	<Form-item label="登录名:">
+	        		<strong>{{postcard.username}}</strong>
                     <!-- <Input v-model="email.username" style="width: 204px" disabled="disabled" /> -->
                 </Form-item>
                 <Form-item label="内容:">
-                	<span>{{email.content}}</span>
+                	<span>{{postcard.content}}</span>
                     <!-- <Input v-model="email.username" style="width: 204px" disabled="disabled" /> -->
                 </Form-item>
             </Form>
@@ -38,7 +38,7 @@
 export default {
   data() {
     return {
-      /*修改modal的显示参数*/
+      groupId: [],
       modal: false,
       /*分页total属性绑定值*/
       total: 0,
@@ -48,14 +48,14 @@ export default {
         pageSize: 10
       },
       /*user实体*/
-      email: {
+      postcard: {
         id: null,
         username: null,
         title: null,
-        email: null,
-        name: null,
+        interestid: null,
         content: null,
-        createtime: null
+        createtime: null,
+        replytime: null
       },
       /*表显示字段*/
       columns1: [
@@ -65,43 +65,53 @@ export default {
           align: "center"
         },
         {
-          title: "姓名",
-          key: "name"
+          title: "ID",
+          key: "id",
+          width: 100
         },
         {
           title: "标题",
-          width: 500,
-          key: "title"
+          key: "title",
+          width: 150
         },
         {
-          title: "email",
-          key: "email"
+          title: "简介",
+          key: "info"
         },
         {
-          title: "时间",
-          key: "createtime"
+          title: "排序",
+          key: "sort",
+          width: 100
         },
         {
           title: "操作",
           align: "center",
           key: "action",
+          width: 100,
           render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "info"
-                  },
-                  on: {
-                    click: () => {
-                      this.emailInfo(params.row);
+            return h(
+              "a",
+              {
+                attrs: {
+                  href:
+                    this.$store.state.domainName +
+                    "/page/detail/" +
+                    params.row.id,
+                  target: "_blank"
+                }
+              },
+              [
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "info"
                     }
-                  }
-                },
-                "查看"
-              )
-            ]);
+                  },
+                  "查看"
+                )
+              ]
+            );
           }
         }
       ],
@@ -114,6 +124,20 @@ export default {
     this.getTable({
       pageInfo: this.pageInfo
     });
+    // this.axios({
+    //   method: "get",
+    //   url: "/public/interests"
+    // })
+    //   .then(
+    //     function(response) {
+    //       this.interestList = response.data.data;
+    //     }.bind(this)
+    //   )
+    //   .catch(
+    //     function(error) {
+    //       alter(error);
+    //     }.bind(this)
+    //   );
   },
   methods: {
     /*pageInfo实体初始化*/
@@ -121,14 +145,14 @@ export default {
       this.pageInfo.page = 0;
       this.pageInfo.pageSize = 10;
     },
-    emailSet(e) {
-      this.email.id = e.id;
-      this.email.username = e.username;
-      this.email.title = e.title;
-      this.email.email = e.email;
-      this.email.name = e.name;
-      this.email.content = e.content;
-      this.email.createtime = e.createtime;
+    postcardSet(e) {
+      this.postcard.id = e.id;
+      this.postcard.username = e.username;
+      this.postcard.title = e.title;
+      this.postcard.interestid = e.interestid;
+      this.postcard.content = e.content;
+      this.postcard.createtime = e.createtime;
+      this.postcard.replytime = e.replytime;
     },
     dateGet(e) {
       var time = new Date(parseInt(e));
@@ -153,7 +177,7 @@ export default {
     getTable(e) {
       this.axios({
         method: "get",
-        url: "/emails",
+        url: "/admin/interests",
         params: {
           page: e.pageInfo.page,
           pageSize: e.pageInfo.pageSize
@@ -162,7 +186,7 @@ export default {
         .then(
           function(response) {
             this.data1 = response.data.data.data;
-            this.listDateSet(this.data1);
+            // this.listDateSet(this.data1);
             this.total = response.data.data.totalCount;
           }.bind(this)
         )
@@ -183,18 +207,14 @@ export default {
     },
     /*表格中双击事件*/
     dblclick(e) {
-      this.emailSet(e);
-      this.modal = true;
-    },
-    emailInfo(e) {
-      this.emailSet(e);
+      this.postcardSet(e);
       this.modal = true;
     },
     del() {
       if (this.groupId != null && this.groupId != "") {
         this.axios({
           method: "delete",
-          url: "/admin/emails",
+          url: "/admin/interests",
           data: this.groupId
         })
           .then(

@@ -1,61 +1,54 @@
 <style scoped>
-.layout {
+.mobild-layout {
   border: 1px solid #d7dde4;
   background: #f5f7f9;
   position: relative;
   border-radius: 4px;
   overflow: hidden;
-  min-width: 1000px;
 }
-
-.layout-logo {
+.mobild-layout .layout-logo {
+  /*width: 100px;*/
+  /*height: 30px;*/
+  /*background: #5b6270;*/
+  /*border-radius: 3px;*/
   float: left;
+  /*position: relative;*/
+  /*top: 15px;
+        left: 20px;*/
+  margin-top: 7px;
 }
-
-.layout-search {
+.mobild-layout .layout-search {
   height: 30px;
   border-radius: 3px;
   float: left;
   position: relative;
-  left: 30px;
+  left: 80px;
 }
-
-.layout-title {
-  margin-left: 30px;
-  height: inherit;
-  float: left;
-}
-
-.layout-title .home-text{
-  color: rebeccapurple;
-  font-weight: bold;
-}
-
-.layout-title .home-text:hover{
-  color: #2d8cf0;
-}
-
-.menu-layout {
-  height:65px;
-  width:100%;
-}
-.layout-nav {
+.mobild-layout .layout-nav {
+  /*width: 315px;
+        margin: 0 auto;
+        margin-right: 20px;*/
   height: inherit;
   float: right;
+  font-size: 15px;
+  margin-right: 5%;
 }
-
-.layout-footer-center {
+.dropdown-menu {
   text-align: center;
-  background: #fff;
 }
-
-.demo-spin-icon-load {
+.mobild-layout .layout-nav span {
+  font-size: 15px;
+  color: #c92027;
+}
+.mobild-layout .layout-footer-center {
+  text-align: center;
+}
+.mobild-layout .demo-spin-icon-load {
   animation: ani-demo-spin 1s linear infinite;
 }
 
 .avatar-badge-wrapper {
   position: relative;
-  float: right;
   cursor: pointer;
 }
 
@@ -63,7 +56,7 @@
   position: absolute;
   top: 9px;
   right: -12px;
-  color: #fff;
+  color: #fff !important;
   background-color: #2db7f5;
   border-radius: 50%;
   padding: 2px 5px;
@@ -81,101 +74,81 @@
     transform: rotate(360deg);
   }
 }
+.layout-title {
+  font-size: 20px;
+  font-weight: 400;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rebeccapurple;
+  left: 41%;
+}
 </style>
 <template>
-    <div class="layout">
-        <Layout>
-            <Header style="position: absolute;width: 100%;background:#fff;padding:0 0;z-index: 1000; ">
-              <Menu mode="horizontal" theme="light" class="menu-layout" active-name="interest"
-                    @on-select="m=>{menuSelect(m)}">
-                  <div style="width: 95%;margin: 0 auto">
-                      <div class="layout-logo">
-                          <a @click="backHome()">
-                              <img src="../../images/logo.jpg" style="width: 50px;height: 50px;" align="absmiddle" />
-                          </a>
-                      </div>
-                      <div class="layout-title">
-                          <MenuItem name="interest">
-                            <span class="home-text">
-                              主页
-                            </span>
-                          </MenuItem>
-                          <MenuItem name="article">
-                            <span class="home-text">
-                              文章
-                            </span>
-                          </MenuItem>
-                      </div>
-                      <div class="layout-search">
-                          <Input v-model="searchValue" icon="android-search" placeholder="Enter something..."
-                                 @on-enter="search()" />
-                      </div>
-                      <div v-if="loginFlag" class="layout-nav">
-                          <MenuItem name="1">
-                              {{user.name}}
-                          </MenuItem>
-                          <MenuItem name="2">
-                              <Icon type="ios-mail"></Icon>
-                              邮件
-                          </MenuItem>
-                          <Submenu name="3">
-                            <template slot="title">
-                                <Icon type="md-list-box" />
-                                文章
-                            </template>
-                            <MenuItem name="31">
-                              <Icon type="md-create" />
-                              写文章
-                            </MenuItem>
-                            <MenuItem name="32">
-                              <Icon type="md-list" />
-                              我的文章
-                            </MenuItem>
-                        </Submenu>
-                          <MenuItem name="4">
-                              <Icon type="md-log-out"></Icon>
-                              退出
-                          </MenuItem>
-                          <MenuItem name="5" v-if="consoleFlag">
-                              <Icon type="md-settings"></Icon>
-                              控制台
-                          </MenuItem>
-                      </div>
-                      <div  type="success" class="avatar-badge-wrapper" @click="toMessages">
+    <div class="mobild-layout">
+    	<Layout>
+            <Header style="position: fixed;width: 100%;background:#fff;padding:0 0;z-index: 1000; line-height:0;">
+            	<div style="width: 95%;margin: 0 auto">
+                    <div class="layout-logo">
+                        <a @click="backHome()">
+                            <img src="../../images/logo.jpg" style="width: 50px;height: 50px;" align="absmiddle" />
+                        </a>
+                    </div>
+                    <!-- <div style="height: 64px;float: left;">
+                        <span class="layout-title">interest</span>
+                    </div> -->
+                    <Dropdown v-if="loginFlag" trigger="click" class="layout-nav" @on-click="m=>{dropdownClick(m)}">
+                        <div  type="success" class="avatar-badge-wrapper">
 
-                          <img v-if="loginFlag"
-                               style="width: 30px;height: 30px; margin-top: 16px;border-radius: 100%;"
-                               :src="user.headimg" />
+                            <img style="width: 40px;height: 40px; margin-top: 12px;border-radius: 100%;" :src="user.headimg" />
 
-                          <span v-if="unreadMsgCount > 0"  class="msg-num">{{unreadMsgCount}}</span>
+                            <span v-if="unreadMsgCount > 0"  class="msg-num">{{unreadMsgCount}}</span>
 
-                      </div>
+                        </div>
 
-                      <div v-if="!loginFlag" class="layout-nav">
-                          <MenuItem name="6">
-                              <Icon type="md-log-in"></Icon>
-                              登录
-                          </MenuItem>
-                      </div>
-                  </div>
-              </Menu>
+                        <DropdownMenu class="dropdown-menu" slot="list">
+                        	<DropdownItem name="name">
+                            	<Icon type="ios-person"></Icon>
+                               	{{user.name}}
+                            </DropdownItem>
+                            <DropdownItem name="email" divided>
+                            	<Icon type="ios-mail"></Icon>
+                                邮件
+                            </DropdownItem>
+
+                            <DropdownItem name="messages" divided>
+                                <Icon type="md-chatboxes"></Icon>
+                                消息
+                            </DropdownItem>
+
+                            <DropdownItem name="loginOut" divided>
+                            	<Icon type="md-log-out"></Icon>
+                            	退出
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                    <div v-if="!loginFlag" class="layout-nav" style="margin-top: 14px;">
+                        <Button shape="circle" @click="toLogin()">
+                        	<span>登录</span>
+                        </Button>
+                    </div>
+                </div>
             </Header>
-            <Content :style="{margin: '80px 0 40px 0'}">
+            <Content :style="{margin: '80px 0 0 0', background: '#fff'}">
                 <router-view></router-view>
             </Content>
             <Footer class="layout-footer-center">
                 <div>
                     <a href="https://github.com/smallsnail-wh" target="_blank">
-                        <Icon style="color: rebeccapurple;" size="40" type="logo-github"></Icon>
+                        <Icon  style="color: rebeccapurple;" size="40" type="logo-github"></Icon>
                     </a>
                 </div>
                 <p>2018-2020 &copy; smallsail-wh</p>
             </Footer>
         </Layout>
 
-        <Modal :mask-closable="false" :visible.sync="emailModal" :loading="loading" v-model="emailModal" width="600"
-               title="联系管理员" @on-ok="emailOk('email')" @on-cancel="cancel()">
-            <Form ref="email" :rules="emailRule" :model="email" :label-width="80">
+        <Modal :mask-closable="false" :visible.sync="emailModal" :loading = "loading" v-model="emailModal" title="联系管理员" @on-ok="emailOk('email')" @on-cancel="cancel()">
+             <Form ref="email" :rules="emailRule" :model="email"  :label-width="80" >
                 <FormItem label="标题" prop="title">
                     <Input v-model="email.title" placeholder="请输入标题" />
                 </FormItem>
@@ -186,7 +159,7 @@
                     <Input v-model="email.name" placeholder="请输入姓名" />
                 </FormItem>
                 <FormItem label="内容" prop="content">
-                    <Input v-model="email.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}"placeholder="Enter something..." />
+                    <Input v-model="email.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..." />
                 </FormItem>
             </Form>
         </Modal>
@@ -200,9 +173,9 @@ export default {
       consoleFlag: false,
       loading: true,
       searchValue: "",
-      emailModal: false,
       //用户未读消息个数
       unreadMsgCount: 0,
+      emailModal: false,
       email: {
         title: "",
         email: "",
@@ -249,20 +222,26 @@ export default {
     };
   },
   mounted() {
+    if (!this.$store.getters._isMobile) {
+      this.$router.replace("/");
+    }
     var code = this.$route.query.code;
     var state = this.$route.query.state;
-    if (this.$store.getters._isMobile) {
-      if (code != null && code != "" && state != null && state != "") {
-        this.$router.replace("/mobile" + "?code=" + code + "&state=" + state);
-        return;
-      } else {
-        this.$router.replace("/mobile");
-        return;
-      }
-    }
     this.login(code, state);
   },
   methods: {
+    dropdownClick(m) {
+      if (m == "email") {
+        this.emailModal = true;
+      } else if (m == "loginOut") {
+        this.$store.dispatch("users/loginOUt", { router: this.$router });
+      } else if (m == "messages") {
+        this.$router.push({ path: "/mobile/messages" });
+      }
+    },
+    toLogin() {
+      this.$router.push("/mlogin");
+    },
     userGet() {
       let _this = this;
       this.axios({
@@ -307,31 +286,20 @@ export default {
       this.user.name = e.name;
     },
     search() {
-      if(this.$route.name == "home" || this.$route.name == "page-home-title"|| this.$route.name == "page-home"){
+      if (this.searchValue != null && this.searchValue != "") {
         this.$router.push("/page/home/" + this.searchValue);
-      }else if(this.$route.name == "article-home"){
-        this.$router.push("/article" + "?searchValue=" + this.searchValue);
       }
     },
     menuSelect(e) {
       if (e == 1) {
-        this.$router.push("/page/user");
       } else if (e == 2) {
         this.emailModal = true;
-      } else if (e == 31) {
-        this.$router.push("/article/create");
-      } else if (e == 32) {
-        this.$router.push("/article/user");
-      } else if (e == 4) {
+      } else if (e == 3) {
         this.$store.dispatch("users/loginOUt", { router: this.$router });
-      } else if (e == 5) {
+      } else if (e == 4) {
         this.$router.push("/base");
-      } else if (e == 6) {
+      } else if (e == 5) {
         this.$router.push("/login");
-      } else if (e == "interest") {
-        this.$router.push("/");
-      } else if (e == "article") {
-        this.$router.push("/article");
       }
     },
     backHome() {
@@ -474,7 +442,7 @@ export default {
     },
 
     toMessages() {
-      console.log("to messages page");
+      //console.log('to messages page');
       this.$router.push({ path: "/page/messages" });
     }
   }

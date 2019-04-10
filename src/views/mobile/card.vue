@@ -1,82 +1,90 @@
-<style scoped>
-  .content{
-    /*padding-right: 88px;*/
-    width: 85%;
-  }
-  .content .content-text{
-    border-right: 1px solid #e8eaec;
-    padding-right: 16px;
-  }
-  .content .content-text p{
-    word-wrap: break-word;
-    word-break: break-all;
-    overflow: hidden;
-  }
-  .content-right{
-    width: 15%;
-    text-align: center;
-    position: absolute;
-    right: 0px;
-    top: 14px;
-    padding-right: 10px;
-  }
+<style type="text/css">
+.content {
+  margin-top: 10px;
+}
+.content p{
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+}
+.title {
+  background: #eceef2;
+  padding: 14px 16px;
+}
+.title p{
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+  line-height: 20px;
+  font-size: 14px;
+  color: #17233d;
+  font-weight: 700;
+}
+.head {
+  border-bottom: 1px solid #e8eaec;
+}
 </style>
 <template>
     <div id="mywork">
 	    <div class="page-header-main">
 	      <div class="box-flex width-80 margin-auto margin-top-2 flex-direction-column flex-justify-center flex-items-center" >
             <div style="width: 100%;margin: 20px 0 20px 0">
-                <div class="ivu-card-head" style="background: #eceef2">
+                <div class="title">
                     <p>{{postcard.title}}</p>
                 </div>
                 <Card>
-                    <div class="content-right">
-                      <div>
-                            <a :href="$store.state.userUrlPre+postcard.userid" target="_blank">
-                                <img :src="postcard.headimg" style="width: 25px;height: 25px;border-radius: 100%;">
-                                {{postcard.username}}
+                    <div class="clearfix head">
+                        <div class="layout-left" style="margin-top: 2px;">
+                            <a :href="postcard.githuburl" target="_blank">
+                                <img :src="postcard.headimg" style="width: 30px;height: 30px;border-radius: 100%;margin-top: 6px;">
                             </a>
-                      </div>
-                      <div style="background: #5cadff;text-align: center;color: #fff;border-radius: 10px;">
-                        楼主
-                      </div>
+                        </div>
+                        <div class="layout-left" style="margin-left: 7px">
+                            <p style="font-size: 17px;">
+                                <a :href="postcard.githuburl" target="_blank">
+                                    {{postcard.username}}
+                                </a>
+                            </p>
+                            <p style="font-size: 1px;">
+                                {{postcard.createtime}}
+                            </p>
+                        </div>
                     </div>
                     <div class="content">
-                        <div class="content-text">
-                          <p>{{postcard.content}}</p>
-                          <span>
-                              <Icon type="ios-time"></Icon>
-                              {{postcard.createtime}}
-                          </span>
-                        </div>
+                        <p>{{postcard.content}}</p>
                     </div>
                 </Card>
 
                 <Card v-for="(item,index) in replyCardList" :key="index">
-                    <div class="content-right">
-                        <a :href="$store.state.userUrlPre+item.userid" target="_blank">
-                            <img :src="item.headimg" style="width: 25px;height: 25px;border-radius: 100%;">
-                            {{item.username}}
-                        </a>
+                    <div class="clearfix head">
+                        <div class="layout-left" style="margin-top: 2px;">
+                            <a :href="item.githuburl" target="_blank">
+                                <img :src="item.headimg" style="width: 30px;height: 30px;border-radius: 100%;margin-top: 6px;">
+                            </a>
+                        </div>
+                        <div class="layout-left" style="margin-left: 7px">
+                            <p style="font-size: 17px;">
+                                <a :href="item.githuburl" target="_blank">
+                                    {{item.username}}
+                                </a>
+                            </p>
+                            <p style="font-size: 1px;">
+                                {{item.createtime}}
+                            </p>
+                        </div>
                     </div>
                     <div class="content">
-                      <div class="content-text">
                         <p>{{item.content}}</p>
-                        <span>
-                            <Icon type="ios-time"></Icon>
-                            {{item.createtime}}
-                        </span>
-                      </div>
                     </div>
                 </Card>
                 <div style="margin-top: 20px">
-                    <Page :total="total" :page-size="pageInfo.pageSize" show-elevator show-total @on-change="e=>{pageSearch(e)}"></Page>
+                    <Page :total="total" :page-size="pageInfo.pageSize" show-total @on-change="e=>{pageSearch(e)}"></Page>
                 </div>
             </div>
 
             <div class="box-flex width-100 margin-auto margin-top-2 border-top border-color-bfbfbf"></div>
 
-            <div class="box-flex margin-auto margin-top-2 flex-direction-column flex-justify-center flex-items-center" style="width: 100%">
+            <div class="box-flex margin-auto margin-top-2 flex-direction-column flex-justify-center flex-items-center" style="width: 100%;margin-bottom: 30px;">
                 <div class=" width-100 flex-direction-row">
                   <div class="box-flex flex-1 padding-all-5x">
                     <span><Icon type="edit"></Icon>发表回复</span>
@@ -112,8 +120,7 @@ export default {
         interestid: "",
         createtime: "",
         headimg: "",
-        githuburl: "",
-        userid: ""
+        githuburl: ""
       },
       replyCardList: []
     };
@@ -164,7 +171,20 @@ export default {
           alert(error);
         });
     },
-
+    dateGet(e) {
+      var time = new Date(parseInt(e));
+      return (
+        time.getFullYear() +
+        "-" +
+        (time.getMonth() + 1) +
+        "-" +
+        time.getDate() +
+        " " +
+        time.getHours() +
+        ":" +
+        time.getMinutes()
+      );
+    },
     listDateSet(e) {
       for (var i = e.length - 1; i >= 0; i--) {
         e[i].createtime = this.dateGet(e[i].createtime);
@@ -180,7 +200,6 @@ export default {
       this.postcard.createtime = this.dateGet(e.createtime);
       this.postcard.headimg = e.headimg;
       this.postcard.githuburl = e.githuburl;
-      this.postcard.userid = e.userid;
     },
     pageSearch(e) {
       this.pageInfo.page = e - 1;

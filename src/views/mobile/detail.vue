@@ -1,77 +1,82 @@
-<style scoped>
-  .content-background {
-    background: #fff;
-  }
-  .content{
-    word-wrap: break-word;
-    word-break: break-all;
-    overflow: hidden;
-  }
-  .chat{
-    display: inline;
-    margin-right: 50px;
-    color:#f90;
-  }
-  .chat span{
-    margin-left: 2px;
-  }
-  .title-text{
-    color: #2d64b3;
-  }
+<style type="text/css">
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: ".";
+  clear: both;
+  height: 0;
+}
+.clearfix {
+  zoom: 1;
+}
+.head {
+  border-bottom: 1px solid #e8eaec;
+}
+.layout-left {
+  float: left;
+}
+.content p{
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+}
+.chat {
+  color:#f90;
+  float: right;
+}
 </style>
 <template>
     <div id="mywork">
-	    <div class="page-header-main content-background">
+	    <div class="page-header-main">
 	      <div class="box-flex width-80 margin-auto margin-top-2 flex-direction-column flex-justify-center flex-items-center" >
 	        <div class="line-height-50 font-size-22">{{insterest.title}}</div>
 	        <div class="text-align-center margin-top-2">
 	        </div>
-            <div style="width: 80%;margin-top: 20px">
-              <div class="ql-container">
-                  <div class="ql-editor">
-                     <div v-html="insterest.content"></div>
-                  </div>
-              </div>
-            </div>
-            
+            <div class="detailContent ql-editor" v-html="insterest.content" style="width: 100%;margin-top: 20px"></div>
+
             <div style="width: 100%;margin: 10% 0 20px 0">
                 <div class="ivu-card-head" style="background: #eceef2">
                     <p>看帖</p>
                 </div>
                 <Card v-for="(item,index) in postcardList" :key="index">
-                    <div slot="title">
-                        <div class="chat">
-                          <Icon type="md-chatboxes" size="25" />
-                          <span>{{item.replyCount}}</span>
-                        </div>
-                        <router-link :to="('/page/card/'+item.id)">
-                            <span class="tirtleFont lineThrou title-text">{{item.title}}</span>
-                        </router-link>
-
+                    <div class="clearfix head">
+                    	<div class="layout-left" style="margin-top: 2px;">
+                    		<a :href="item.githuburl" target="_blank">
+	                            <img :src="item.headimg" style="width: 30px;height: 30px;border-radius: 100%;margin-top: 6px;">
+	                        </a>
+                    	</div>
+                      <div class="layout-left" style="margin-left: 7px">
+                    		<p style="font-size: 17px;">
+                    			<a :href="item.githuburl" target="_blank">
+                    				{{item.username}}
+                    			</a>
+                    		</p>
+                    		<p style="font-size: 1px;">
+                    			{{item.replytime}}
+                    		</p>
+                    	</div>
+                      <div class="chat">
+                        <Icon type="md-chatboxes" size="25" />
+                        <span>{{item.replyCount}}</span>
+                      </div>
                     </div>
-                    <div slot="extra">
-                        <a :href="$store.state.userUrlPre+item.userid" target="_blank">
-                            <!-- <Icon type="ios-person"></Icon> -->
-                            <img :src="item.headimg" style="width: 25px;height: 25px;border-radius: 100%;">
-                            {{item.username}}
-                        </a>
-                    </div>
-                    <div>
-                        <p class="content">{{item.content}}</p>
-                        <span>
-                            <Icon type="ios-time"></Icon>
-                            {{item.replytime}}
-                        </span>
+                    <div class="content">
+                        <p>
+	                        <router-link :to="('/mobile/card/'+item.id)">
+	                            <span class="tirtleFont lineThrou">{{item.title}}</span>
+	                        </router-link>
+	                    </p>
                     </div>
                 </Card>
                 <div style="margin-top: 20px">
-                    <Page :total="total" :page-size="pageInfo.pageSize" show-elevator show-total @on-change="e=>{pageSearch(e)}"></Page>
+                    <Page :total="total" :page-size="pageInfo.pageSize" show-total @on-change="e=>{pageSearch(e)}"></Page>
                 </div>
             </div>
 
             <div class="box-flex width-100 margin-auto margin-top-2 border-top border-color-bfbfbf"></div>
 
-            <div class="box-flex margin-auto margin-top-2 flex-direction-column flex-justify-center flex-items-center" style="width: 100%">
+            <div class="box-flex margin-auto margin-top-2 flex-direction-column flex-justify-center flex-items-center" style="width: 100%;margin-bottom: 30px;">
                 <div class=" width-100 flex-direction-row">
                   <div class="box-flex flex-1 padding-all-5x">
                     <span><Icon type="edit"></Icon>发帖</span>
@@ -141,7 +146,20 @@ export default {
           }.bind(this)
         );
     },
-
+    dateGet(e) {
+      var time = new Date(parseInt(e));
+      return (
+        time.getFullYear() +
+        "-" +
+        (time.getMonth() + 1) +
+        "-" +
+        time.getDate() +
+        " " +
+        time.getHours() +
+        ":" +
+        time.getMinutes()
+      );
+    },
     listDateSet(e) {
       for (var i = e.length - 1; i >= 0; i--) {
         e[i].replytime = this.dateGet(e[i].replytime);
