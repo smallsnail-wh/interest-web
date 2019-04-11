@@ -121,13 +121,6 @@ export default {
           );
       }
     }
-    // login(formLogin){
-    //     this.$refs[formLogin].validate((valid) => {
-    //         if(valid){
-    //             this.$store.dispatch('users/userLogin',{"user_name":this.formLogin.userName,"user_password":this.formLogin.password,"router":this.$router});
-    //         }
-    //     })
-    // }
   }
 };
 </script>

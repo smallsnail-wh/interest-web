@@ -6,26 +6,49 @@ Vue.use(VueRouter);
 
 const routers = [
   {
-    path: "/image-capture",
-    component: resolve => require(["./views/template/image-capture.vue"], resolve)
-  },
-  {
     path: "*",
-    component: resolve => require(["./views/error404.vue"], resolve)
+    component: resolve => require(["./views/pc/error404.vue"], resolve)
   },
   {
     path: "/",
     meta: {
       title: "smallsnail-wh"
     },
-    component: resolve => require(["./views/template/index.vue"], resolve),
+    component: resolve => require(["./views/pc/index.vue"], resolve),
     children: [
       {
         path: "",
         name: "home",
-        component: resolve => require(["./views/template/home.vue"], resolve),
+        component: resolve => require(["./views/pc/bbs/home.vue"], resolve),
         meta: {
           title: "home"
+        }
+      },
+      {
+        path: "messages",
+        name: "bbs-messages",
+        component: resolve =>
+          require(["./views/pc/user/messages.vue"], resolve),
+        meta: {
+          title: "messages"
+        }
+      },
+      {
+        path: "user",
+        name: "user",
+        component: resolve =>
+          require(["./views/pc/user/user-info.vue"], resolve),
+        meta: {
+          title: "user"
+        }
+      },
+      {
+        path: "user/:id",
+        name: "user-id",
+        component: resolve =>
+          require(["./views/pc/user/user-page.vue"], resolve),
+        meta: {
+          title: "user"
         }
       }
     ]
@@ -35,12 +58,12 @@ const routers = [
     meta: {
       title: "smallsnail-wh"
     },
-    component: resolve => require(["./views/template/index.vue"], resolve),
+    component: resolve => require(["./views/pc/index.vue"], resolve),
     children: [
       {
         path: "",
         name: "qq-home",
-        component: resolve => require(["./views/template/home.vue"], resolve),
+        component: resolve => require(["./views/pc/bbs/home.vue"], resolve),
         meta: {
           title: "home"
         }
@@ -52,72 +75,102 @@ const routers = [
     meta: {
       title: "smallsnail-wh"
     },
-    component: resolve => require(["./views/login.vue"], resolve)
+    component: resolve => require(["./views/pc/login.vue"], resolve)
   },
   {
-    path: "/page",
+    path: "/bbs",
     meta: {
       title: "smallsnail-wh"
     },
-    component: resolve => require(["./views/template/index.vue"], resolve),
+    component: resolve => require(["./views/pc/index.vue"], resolve),
     children: [
       {
         path: "home",
-        name: "page-home",
-        component: resolve => require(["./views/template/home.vue"], resolve),
+        name: "bbs-home",
+        component: resolve => require(["./views/pc/bbs/home.vue"], resolve),
         meta: {
           title: "home"
         }
       },
       {
         path: "home/:title",
-        name: "page-home-title",
-        component: resolve => require(["./views/template/home.vue"], resolve),
+        name: "bbs-home-title",
+        component: resolve => require(["./views/pc/bbs/home.vue"], resolve),
         meta: {
           title: "home"
         }
       },
       {
         path: "detail/:id",
-        name: "page-detail-id",
-        component: resolve => require(["./views/template/detail.vue"], resolve),
+        name: "bbs-detail-id",
+        component: resolve => require(["./views/pc/bbs/detail.vue"], resolve),
         meta: {
           title: "detail"
         }
       },
       {
         path: "card/:id",
-        name: "page-card-id",
-        component: resolve => require(["./views/template/card.vue"], resolve),
+        name: "bbs-card-id",
+        component: resolve => require(["./views/pc/bbs/card.vue"], resolve),
         meta: {
           title: "card"
         }
+      }
+    ]
+  },
+  {
+    path: "/blog",
+    meta: {
+      title: "smallsnail-wh"
+    },
+    component: resolve => require(["./views/pc/index.vue"], resolve),
+    children: [
+      {
+        path: "",
+        name: "blog-home",
+        component: resolve => require(["./views/pc/blog/home.vue"], resolve),
+        meta: {
+          title: "blog"
+        }
       },
       {
-        path: "messages",
-        name: "page-messages",
-        component: resolve =>
-          require(["./views/template/messages.vue"], resolve),
+        path: "create",
+        name: "blog-create",
+        component: resolve => require(["./views/pc/blog/create-article.vue"], resolve),
         meta: {
-          title: "messages"
+          title: "blog"
+        }
+      },
+      {
+        path: "create/success",
+        name: "blog-create",
+        component: resolve => require(["./views/pc/blog/create-article-success.vue"], resolve),
+        meta: {
+          title: "blog"
+        }
+      },
+      {
+        path: "detail/:id",
+        name: "blog-detail-id",
+        component: resolve => require(["./views/pc/blog/article-detail.vue"], resolve),
+        meta: {
+          title: "blog"
         }
       },
       {
         path: "user",
-        name: "page-user",
-        component: resolve =>
-          require(["./views/template/user-info.vue"], resolve),
+        name: "blog-user",
+        component: resolve => require(["./views/pc/blog/user-article.vue"], resolve),
         meta: {
-          title: "user"
+          title: "blog"
         }
       },
       {
-        path: "user/:id",
-        name: "page-user-id",
-        component: resolve =>
-          require(["./views/template/user-page.vue"], resolve),
+        path: "update/:id",
+        name: "blog-update-id",
+        component: resolve => require(["./views/pc/blog/update-article.vue"], resolve),
         meta: {
-          title: "user"
+          title: "blog"
         }
       }
     ]
@@ -127,7 +180,7 @@ const routers = [
     meta: {
       title: "smallsnail-wh"
     },
-    component: resolve => require(["./views/mlogin.vue"], resolve)
+    component: resolve => require(["./views/mobile/mlogin.vue"], resolve)
   },
   {
     path: "/mobile",
@@ -139,7 +192,7 @@ const routers = [
       {
         path: "",
         name: "mobile-home",
-        component: resolve => require(["./views/mobile/home.vue"], resolve),
+        component: resolve => require(["./views/mobile/bbs/home.vue"], resolve),
         meta: {
           title: "home"
         }
@@ -147,7 +200,7 @@ const routers = [
       {
         path: "home/:title",
         name: "mobile-home-title",
-        component: resolve => require(["./views/mobile/home.vue"], resolve),
+        component: resolve => require(["./views/mobile/bbs/home.vue"], resolve),
         meta: {
           title: "home"
         }
@@ -155,7 +208,7 @@ const routers = [
       {
         path: "detail/:id",
         name: "mobile-detail-id",
-        component: resolve => require(["./views/mobile/detail.vue"], resolve),
+        component: resolve => require(["./views/mobile/bbs/detail.vue"], resolve),
         meta: {
           title: "detail"
         }
@@ -163,7 +216,7 @@ const routers = [
       {
         path: "card/:id",
         name: "mobile-card-id",
-        component: resolve => require(["./views/mobile/card.vue"], resolve),
+        component: resolve => require(["./views/mobile/bbs/card.vue"], resolve),
         meta: {
           title: "card"
         }
@@ -178,164 +231,6 @@ const routers = [
         }
       }
     ]
-  },
-  {
-    path: "/base",
-    meta: {
-      title: "base",
-      requiresAuth: true
-    },
-    component: resolve => require(["./views/sys/base.vue"], resolve),
-    children: [
-      {
-        path: "",
-        name: "welcome",
-        component: resolve => require(["./views/sys/welcome.vue"], resolve),
-        meta: {
-          title: "welcome"
-        }
-      },
-      {
-        path: "menu",
-        name: "menu",
-        component: resolve => require(["./views/sys/menu.vue"], resolve),
-        meta: {
-          title: "menu"
-        }
-      },
-      {
-        path: "role",
-        name: "role",
-        component: resolve => require(["./views/sys/role.vue"], resolve),
-        meta: {
-          title: "role"
-        }
-      },
-      {
-        path: "user",
-        name: "user",
-        component: resolve => require(["./views/sys/user.vue"], resolve),
-        meta: {
-          title: "user"
-        }
-      },
-      {
-        path: "email",
-        name: "email",
-        component: resolve => require(["./views/sys/email.vue"], resolve),
-        meta: {
-          title: "email"
-        }
-      },
-      {
-        path: "card",
-        name: "cardmanage",
-        component: resolve => require(["./views/sys/card.vue"], resolve),
-        meta: {
-          title: "card"
-        }
-      },
-      {
-        path: "i-edit",
-        name: "interest-edit",
-        component: resolve =>
-          require(["./views/sys/interest/interest-edit.vue"], resolve),
-        meta: {
-          title: "interest"
-        }
-      },
-      {
-        path: "i-create",
-        name: "interest-create",
-        component: resolve =>
-          require(["./views/sys/interest/interest-create.vue"], resolve),
-        meta: {
-          title: "interest"
-        }
-      },
-      {
-        path: "i-delete",
-        name: "interest-delete",
-        component: resolve =>
-          require(["./views/sys/interest/interest-delete.vue"], resolve),
-        meta: {
-          title: "interest"
-        }
-      },
-      {
-        path: "banner",
-        name: "banner",
-        component: resolve => require(["./views/sys/banner.vue"], resolve),
-        meta: {
-          title: "banner"
-        }
-      },
-      {
-        path: "article",
-        name: "article",
-        component: resolve => require(["./views/sys/article.vue"], resolve),
-        meta: {
-          title: "article"
-        }
-      }
-    ]
-  },
-  {
-    path: "/article",
-    meta: {
-      title: "smallsnail-wh"
-    },
-    component: resolve => require(["./views/template/index.vue"], resolve),
-    children: [
-      {
-        path: "",
-        name: "article-home",
-        component: resolve => require(["./views/article/pc/home.vue"], resolve),
-        meta: {
-          title: "article"
-        }
-      },
-      {
-        path: "create",
-        name: "article-create",
-        component: resolve => require(["./views/article/pc/create-article.vue"], resolve),
-        meta: {
-          title: "article"
-        }
-      },
-      {
-        path: "create/success",
-        name: "article-create",
-        component: resolve => require(["./views/article/pc/create-article-success.vue"], resolve),
-        meta: {
-          title: "article"
-        }
-      },
-      {
-        path: "detail/:id",
-        name: "article-detail-id",
-        component: resolve => require(["./views/article/pc/article-detail.vue"], resolve),
-        meta: {
-          title: "article"
-        }
-      },
-      {
-        path: "user",
-        name: "article-user",
-        component: resolve => require(["./views/article/pc/user-article.vue"], resolve),
-        meta: {
-          title: "article"
-        }
-      },
-      {
-        path: "update/:id",
-        name: "article-update-id",
-        component: resolve => require(["./views/article/pc/update-article.vue"], resolve),
-        meta: {
-          title: "article"
-        }
-      }
-    ]
   }
 ];
 
@@ -347,16 +242,6 @@ const RouterConfig = {
 const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
-  // let token = window.localStorage.getItem("currentUser_token");
-  // if (
-  //   to.matched.some(record => record.meta.requiresAuth) &&
-  //   (!token || token === null)
-  // ) {
-  //   next({
-  //     path: "/",
-  //     query: { redirect: to.fullPath }
-  //   });
-  // }
   iView.LoadingBar.start();
   next();
 });

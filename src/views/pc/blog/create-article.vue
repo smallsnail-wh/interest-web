@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import InterestQuillEditor from "../../sys/interest/interest-quill-editor";
+import InterestQuillEditor from "../../../components/interest-quill-editor";
 export default {
   components: {
     "interest-quill-editor": InterestQuillEditor

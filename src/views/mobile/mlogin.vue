@@ -8,7 +8,7 @@
   bottom: 0;
   left: 0;
   text-align: center;
-  background-image: url(../images/login.jpg);
+  background-image: url(../../images/login.jpg);
 }
 .index .ivu-row-flex {
   height: 100%;
@@ -82,7 +82,7 @@
                     <ul style="list-style: none; box-shadow:1px 1px 20px rgba(0,0,0,.5);">
                         <li style="border-bottom: 1px solid #e9eaec;">
                             <div class="content">
-                                <img src="../images/logo.jpg" style="width: 40px;height: 40px;" align="absmiddle" />
+                                <img src="../../images/logo.jpg" style="width: 40px;height: 40px;" align="absmiddle" />
                                 <span style="float:right;font-size: 15px"><Icon type="ios-log-in"></Icon>欢迎登录</span>
                             </div>
                         </li>
@@ -112,13 +112,13 @@
                                         <li>
                                             <a href="https://github.com/login/oauth/authorize?client_id=bbb5cc2034eb62484c1c&state=github" style="{right: 26px;}">
                                                 <!-- <Icon  style="color: rebeccapurple;" size="40" type="social-github"></Icon> -->
-                                                <img class="icon" src="../images/GitHub.svg" />
+                                                <img class="icon" src="../../images/GitHub.svg" />
                                             </a>
                                         </li>
                                         
                                         <li>
                                             <a href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101512648&redirect_uri=http://www.lovemtt.com/qq&state=qq" style="{right: 26px;}">
-                                                <img class="icon" src="../images/social-qq.svg" />  
+                                                <img class="icon" src="../../images/social-qq.svg" />  
                                             </a>
                                         </li>
                                     </ul>

@@ -47,6 +47,7 @@ module.exports = {
   pwa: {},
   // webpack-dev-server 相关配置
   devServer: {
+    open: process.platform === 'darwin',
     compress: true,
     host: "0.0.0.0",
     port: 8090,
@@ -58,7 +59,7 @@ module.exports = {
         ws: false,
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '' // rewrite path
+          '^/api': '/' // rewrite path
         }
       }
     } // 设置代理

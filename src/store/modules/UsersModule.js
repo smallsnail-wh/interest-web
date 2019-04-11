@@ -53,7 +53,7 @@ export default {
           /*router.push({path:"base"});*/
           axios.defaults.headers.common["Authorization"] =
             "bearer " + localStorage.getItem("currentUser_token");
-          router.push({ path: "/page/home" });
+          router.push({ path: "/" });
           context.commit("setSignFalse", null, { root: true });
           /*this.$route.router.push({ path: '/base' });*/
         })

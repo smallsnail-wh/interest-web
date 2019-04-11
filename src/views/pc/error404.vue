@@ -25,7 +25,7 @@
 <template>
     <div class="index">
         <div id="index_pc_bj">
-            <img src="../images/error404.gif" />
+            <img src="../../images/error404.gif" />
         </div>
     </div>
 </template>

@@ -406,7 +406,7 @@ export default {
     githubLogin(code) {
       this.axios({
         method: "post",
-        url: "/authentication/github",
+        url: "/interest/auth/authentication/github",
         params: {
           code: code
         },
@@ -441,7 +441,7 @@ export default {
     qqLogin(code) {
       this.axios({
         method: "post",
-        url: "/authentication/qq",
+        url: "/interest/auth/authentication/qq",
         params: {
           code: code
         },
