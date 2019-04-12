@@ -136,10 +136,6 @@
                               <Icon type="md-log-out"></Icon>
                               退出
                           </MenuItem>
-                          <MenuItem name="5" v-if="consoleFlag">
-                              <Icon type="md-settings"></Icon>
-                              控制台
-                          </MenuItem>
                       </div>
                       <div  type="success" class="avatar-badge-wrapper" @click="toMessages">
 
@@ -197,7 +193,6 @@ export default {
   data() {
     return {
       loginFlag: false,
-      consoleFlag: false,
       loading: true,
       searchValue: "",
       emailModal: false,
@@ -210,7 +205,7 @@ export default {
         content: ""
       },
       user: {
-        loginName: "",
+        url: "",
         email: "",
         headimg: "",
         name: ""
@@ -267,20 +262,17 @@ export default {
       let _this = this;
       this.axios({
         method: "get",
-        url: "/public/user"
+        url: "/interest/user/public/user"
       })
         .then(
           function(response) {
             if (response.data.data != null && response.data.data != "") {
               this.loginFlag = true;
               this.userSet(response.data.data);
-              if (response.data.data.usertype == 1) {
-                this.consoleFlag = true;
-              }
 
               return this.axios({
                 method: "get",
-                url: "/msgrecords/unreadnum"
+                url: "/interest/message/msgrecords/unreadnum"
               });
             } else {
               return Promise.resolve(0);
@@ -301,7 +293,7 @@ export default {
         );
     },
     userSet(e) {
-      this.user.loginName = e.loginName;
+      this.user.url = e.url;
       this.user.email = e.email;
       this.user.headimg = e.headimg;
       this.user.name = e.name;
@@ -335,7 +327,7 @@ export default {
       }
     },
     backHome() {
-      this.$router.push("/page/home");
+      this.$router.push("/");
     },
     cancel() {
       this.$Message.info("点击了取消");
@@ -345,7 +337,7 @@ export default {
         if (valid) {
           this.axios({
             method: "post",
-            url: "/email",
+            url: "/interest/message/email",
             data: this.email
           })
             .then(

@@ -125,7 +125,7 @@ export default {
     getArticle(e) {
       this.axios({
         method: "get",
-        url: "/public/interests/interest",
+        url: "/interest/bbs/public/interests/interest",
         params: {
           id: e
         }
