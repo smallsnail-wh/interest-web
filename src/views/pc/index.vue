@@ -299,10 +299,10 @@ export default {
       this.user.name = e.name;
     },
     search() {
-      if(this.$route.name == "home" || this.$route.name == "page-home-title"|| this.$route.name == "page-home"){
-        this.$router.push("/page/home/" + this.searchValue);
-      }else if(this.$route.name == "article-home"){
-        this.$router.push("/article" + "?searchValue=" + this.searchValue);
+      if(this.$route.name == "home" || this.$route.name == "bbs-home"|| this.$route.name == "bbs-home-title"){
+        this.$router.push("/bbs/home/" + this.searchValue);
+      }else if(this.$route.name == "blog-home"){
+        this.$router.push("/blog" + "?searchValue=" + this.searchValue);
       }
     },
     menuSelect(e) {
@@ -323,7 +323,7 @@ export default {
       } else if (e == "interest") {
         this.$router.push("/");
       } else if (e == "article") {
-        this.$router.push("/article");
+        this.$router.push("/blog");
       }
     },
     backHome() {

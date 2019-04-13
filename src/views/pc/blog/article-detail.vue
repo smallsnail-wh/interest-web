@@ -203,13 +203,13 @@
                             <div class="title line-height-40 font-size-22">{{article.title}}</div>
                             <dl class="list-user-other">
                                 <dt>
-                                    <a :href="$store.state.userUrlPre+article.userid" target="_blank">
+                                    <a :href="$store.state.userUrlPre+article.userId" target="_blank">
                                         <img :src="article.userHeadImg"
                                              style="width: 25px;height: 25px;border-radius: 100%;">
                                     </a>
                                 </dt>
                                 <dd>
-                                    <a :href="$store.state.userUrlPre+article.userid" target="_blank">{{article.userName}}</a>
+                                    <a :href="$store.state.userUrlPre+article.userId" target="_blank">{{article.userName}}</a>
                                 </dd>
                                 <dd>
                                     <span class="text">阅读数:</span>
@@ -243,11 +243,11 @@
                     <ul class="reply-list">
                         <li v-for="(comment, index) in comments" class="reply-item" :key="comment.id">
                                 <div class="user">
-                                    <a :href="$store.state.userUrlPre+comment.userid" target="_blank">
+                                    <a :href="$store.state.userUrlPre+comment.userId" target="_blank">
                                         <img class="avatar" :src="comment.userHeadImg" :title="comment.userName" />
                                     </a>
                                     <div class="title-info">
-                                        <a :href="$store.state.userUrlPre+comment.userid" target="_blank">
+                                        <a :href="$store.state.userUrlPre+comment.userId" target="_blank">
                                             <span class="user-name">{{comment.userName}}</span>
                                         </a>
                                         <span># {{index + 1}} 楼 • {{comment.creatTimeBy}}</span>
@@ -269,11 +269,11 @@
                                 <li v-for="(replyComment,replyIndex) in comment.childComments" class="reply-item" :key="replyComment.id">
                                     <div class="reply-info">
                                         <div class="title-info">
-                                            <a :href="$store.state.userUrlPre+replyComment.userid" target="_blank">
+                                            <a :href="$store.state.userUrlPre+replyComment.userId" target="_blank">
                                                 <img class="avatar" :src="replyComment.userHeadImg" :title="replyComment.userName" />
                                             </a>
                                             <div class="title-info-right">
-                                                <a :href="$store.state.userUrlPre+replyComment.userid" target="_blank">
+                                                <a :href="$store.state.userUrlPre+replyComment.userId" target="_blank">
                                                     <span class="user-name">{{replyComment.userName}}</span>
                                                 </a>
                                                 <span>回复</span>
@@ -307,7 +307,7 @@
                     clickRate: "",
                     commentCount: "",
                     createTime: "",
-                    userid: "",
+                    userId: "",
                     userName: "",
                     userHeadImg: "",
                     githuburl: ""
@@ -320,9 +320,9 @@
                 commentAppendInput:1,
                 appendActive: false,
                 articleComment: {
-                    articleid: null,
+                    articleId: null,
                     articleOwnerId:null,
-                    parentid: null,
+                    parentId: null,
                     comment: null,
                     replierId: null,
                     replierName: null
@@ -338,7 +338,7 @@
             getArticle(e) {
                 this.axios({
                     method: "get",
-                    url: "/public/articles/article/" + e
+                    url: "/interest/blog/public/articles/article/" + e
                 }).then(
                     function (response) {
                         this.articleSet(response.data.data);
@@ -356,22 +356,22 @@
                 this.article.clickRate = e.clickRate;
                 this.article.commentCount = e.commentCount;
                 this.article.createTime = this.dateGet(e.createTime);
-                this.article.userid = e.userid;
+                this.article.userId = e.userId;
                 this.article.userName = e.userName;
                 this.article.userHeadImg = e.userHeadImg;
                 this.article.githuburl = e.githuburl;
             },
             articleCommentSet(e) {
-                this.articleComment.articleid = e.articleid;
-                this.articleComment.parentid = e.parentid;
+                this.articleComment.articleId = e.articleId;
+                this.articleComment.parentId = e.parentId;
                 this.articleComment.comment = e.comment;
                 this.articleComment.replierId = e.replierId;
                 this.articleComment.replierName = e.replierName;
-                this.articleComment.articleOwnerId = this.article.userid;
+                this.articleComment.articleOwnerId = this.article.userId;
             },
             articleCommentInit() {
-                this.articleComment.articleid = null;
-                this.articleComment.parentid = null;
+                this.articleComment.articleId = null;
+                this.articleComment.parentId = null;
                 this.articleComment.comment = null;
                 this.articleComment.replierId = null;
                 this.articleComment.replierName = null;
@@ -380,7 +380,7 @@
             getComments() {
                 this.axios({
                     method: 'get',
-                    url: '/public/article/comment',
+                    url: '/interest/blog/public/article/comment',
                     params: {
                         articleId: this.articleId,
                         page: this.page,
@@ -416,16 +416,16 @@
                 //document.documentElement.scrollTop = anchor.offsetTop; // firefox
 
                 if(sign == 1){
-                    this.articleComment.articleid = this.articleId;
-                    this.articleComment.parentid = e.id;
+                    this.articleComment.articleId = this.articleId;
+                    this.articleComment.parentId = e.id;
                     this.articleComment.comment = null;
-                    this.articleComment.replierId = e.userid;
+                    this.articleComment.replierId = e.userId;
                     this.articleComment.replierName = e.userName;
                 }else if(sign == 2){
-                    this.articleComment.articleid = this.articleId;
-                    this.articleComment.parentid = e.parentid;
+                    this.articleComment.articleId = this.articleId;
+                    this.articleComment.parentId = e.parentId;
                     this.articleComment.comment = null;
-                    this.articleComment.replierId = e.userid;
+                    this.articleComment.replierId = e.userId;
                     this.articleComment.replierName = e.userName;
                 }
                 this.commentAppend = "[reply]"+e.userName+"[/reply]\n";
@@ -445,25 +445,25 @@
                     var validate = "[reply]"+this.articleComment.replierName+"[/reply]";
                     if(str == validate){
                         this.articleComment.comment = this.commentAppend.substring(str.length);
-                        this.articleComment.articleOwnerId = this.article.userid;
+                        this.articleComment.articleOwnerId = this.article.userId;
                         this.postComment(this.articleComment);
                     }else {
                         this.postComment({
-                        articleid:this.articleId,
+                        articleId:this.articleId,
                         comment:this.commentAppend,
-                        articleOwnerId:this.article.userid});
+                        articleOwnerId:this.article.userId});
                     }
                 }else {
                     this.postComment({
-                        articleid:this.articleId,
+                        articleId:this.articleId,
                         comment:this.commentAppend,
-                        articleOwnerId:this.article.userid});
+                        articleOwnerId:this.article.userId});
                 }
             },
             postComment(e){
                 this.axios({
                     method: 'post',
-                    url: '/article/comment',
+                    url: '/interest/blog/article/comment',
                     data: e
                 }).then(function (response) {
                     this.$Message.success('评论成功');

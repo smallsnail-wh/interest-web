@@ -44,23 +44,23 @@
                           <Icon type="md-chatboxes" size="25" />
                           <span>{{item.replyCount}}</span>
                         </div>
-                        <router-link :to="('/page/card/'+item.id)">
+                        <router-link :to="('/bbs/card/'+item.id)">
                             <span class="tirtleFont lineThrou title-text">{{item.title}}</span>
                         </router-link>
 
                     </div>
                     <div slot="extra">
-                        <a :href="$store.state.userUrlPre+item.userid" target="_blank">
+                        <a :href="$store.state.userUrlPre+item.userId" target="_blank">
                             <!-- <Icon type="ios-person"></Icon> -->
-                            <img :src="item.headimg" style="width: 25px;height: 25px;border-radius: 100%;">
-                            {{item.username}}
+                            <img :src="item.headImg" style="width: 25px;height: 25px;border-radius: 100%;">
+                            {{item.userName}}
                         </a>
                     </div>
                     <div>
                         <p class="content">{{item.content}}</p>
                         <span>
                             <Icon type="ios-time"></Icon>
-                            {{item.replytime}}
+                            {{item.replyTime}}
                         </span>
                     </div>
                 </Card>
@@ -144,21 +144,22 @@ export default {
 
     listDateSet(e) {
       for (var i = e.length - 1; i >= 0; i--) {
-        e[i].replytime = this.dateGet(e[i].replytime);
+        e[i].replyTime = this.dateGet(e[i].replyTime);
       }
     },
     getPostCard(e) {
       this.axios({
         method: "get",
-        url: "/public/postcards",
+        url: "/interest/bbs/public/postcards",
         params: {
           page: e.pageInfo.page,
           pageSize: e.pageInfo.pageSize,
-          interestid: e.interestid
+          interestId: e.interestid
         }
       })
         .then(
           function(response) {
+            console.log();
             this.postcardList = response.data.data.data;
             this.listDateSet(this.postcardList);
             this.total = response.data.data.totalCount;
@@ -195,9 +196,9 @@ export default {
         ) {
           this.axios({
             method: "post",
-            url: "/postcards/postcard",
+            url: "/interest/bbs/postcards/postcard",
             data: {
-              interestid: this.interestid,
+              interestId: this.interestid,
               title: this.title,
               content: this.textarea
             }

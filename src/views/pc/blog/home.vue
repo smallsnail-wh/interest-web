@@ -73,7 +73,7 @@
           <div style="width: 100%;margin: 0 0 20px 0">
               <Card v-for="(item,index) in articleList" :key="index" class="card-body">
                   <div class="title">
-                    <router-link :to="('/article/detail/'+item.id)">
+                    <router-link :to="('/blog/detail/'+item.id)">
                       <span class="tirtleFont lineThrou ">{{item.title}}</span>
                     </router-link>
                   </div>
@@ -82,12 +82,12 @@
                   </div>
                   <dl class="list-user-other">
                     <dt>
-                      <a :href="$store.state.userUrlPre+item.userid" target="_blank">
+                      <a :href="$store.state.userUrlPre+item.userId" target="_blank">
                           <img :src="item.userHeadImg" style="width: 25px;height: 25px;border-radius: 100%;">
                       </a>
                     </dt>
                     <dd>
-                      <a :href="$store.state.userUrlPre+item.userid" target="_blank">
+                      <a :href="$store.state.userUrlPre+item.userId" target="_blank">
                           {{item.userName}}
                       </a>
                     </dd>
@@ -95,14 +95,14 @@
                     <dd>{{dateGet(item.createTime)}}</dd>
                     <div class="right-info">
                       <dd>
-                        <router-link :to="('/article/detail/'+item.id)">
+                        <router-link :to="('/blog/detail/'+item.id)">
                           <span class="text">阅读数</span>
                           <span class="num">{{item.clickRate}}</span>
                         </router-link>
                       </dd>
                       <div class="interval"></div>
                       <dd>
-                        <router-link :to="('/article/detail/'+item.id)">
+                        <router-link :to="('/blog/detail/'+item.id)">
                           <span class="text">评论数</span>
                           <span class="num">{{item.commentCount}}</span>
                         </router-link>
@@ -149,7 +149,7 @@ export default {
     getArticle(e) {
       this.axios({
         method: "get",
-        url: "/public/articles",
+        url: "/interest/blog/public/articles",
         params: {
           page: e.pageInfo.page,
           pageSize: e.pageInfo.pageSize,

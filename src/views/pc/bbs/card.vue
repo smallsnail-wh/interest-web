@@ -54,9 +54,9 @@
 
                 <Card v-for="(item,index) in replyCardList" :key="index">
                     <div class="content-right">
-                        <a :href="$store.state.userUrlPre+item.userid" target="_blank">
-                            <img :src="item.headimg" style="width: 25px;height: 25px;border-radius: 100%;">
-                            {{item.username}}
+                        <a :href="$store.state.userUrlPre+item.userId" target="_blank">
+                            <img :src="item.headImg" style="width: 25px;height: 25px;border-radius: 100%;">
+                            {{item.userName}}
                         </a>
                     </div>
                     <div class="content">
@@ -64,7 +64,7 @@
                         <p>{{item.content}}</p>
                         <span>
                             <Icon type="ios-time"></Icon>
-                            {{item.createtime}}
+                            {{item.createTime}}
                         </span>
                       </div>
                     </div>
@@ -122,7 +122,7 @@ export default {
     this.postcardid = this.$route.params.id;
     this.axios({
       method: "get",
-      url: "/public/postcards/postcard",
+      url: "/interest/bbs/public/postcards/postcard",
       params: {
         id: this.postcardid
       }
@@ -146,11 +146,11 @@ export default {
     replyCardListGet(e) {
       this.axios({
         method: "get",
-        url: "/public/replycards",
+        url: "/interest/bbs/public/reply-cards",
         params: {
           page: e.pageInfo.page,
           pageSize: e.pageInfo.pageSize,
-          postcardid: e.postcardid
+          postCardId: e.postcardid
         }
       })
         .then(
@@ -167,20 +167,19 @@ export default {
 
     listDateSet(e) {
       for (var i = e.length - 1; i >= 0; i--) {
-        e[i].createtime = this.dateGet(e[i].createtime);
+        e[i].createTime = this.dateGet(e[i].createTime);
       }
     },
     postcardSet(e) {
+      console.log(e);
       this.postcard.id = e.id;
-      this.postcard.username = e.username;
+      this.postcard.username = e.userName;
       this.postcard.title = e.title;
       this.postcard.content = e.content;
-      this.postcard.interestid = e.interestid;
-      // this.postcard.createtime = e.createtime;
-      this.postcard.createtime = this.dateGet(e.createtime);
-      this.postcard.headimg = e.headimg;
-      this.postcard.githuburl = e.githuburl;
-      this.postcard.userid = e.userid;
+      this.postcard.interestid = e.interestId;
+      this.postcard.createtime = this.dateGet(e.createTime);
+      this.postcard.headimg = e.headImg;
+      this.postcard.userid = e.userId;
     },
     pageSearch(e) {
       this.pageInfo.page = e - 1;
@@ -197,9 +196,9 @@ export default {
         ) {
           this.axios({
             method: "post",
-            url: "/replycards/replycard",
+            url: "/interest/bbs/reply-cards/reply-card",
             data: {
-              postcardid: this.postcardid,
+              postCardId: this.postcardid,
               content: this.textarea
             }
           })
@@ -207,7 +206,6 @@ export default {
               function(response) {
                 this.$Message.info("回复成功");
                 this.textarea = "";
-                // this.pageInfo.page = 0;
                 this.replyCardListGet({
                   pageInfo: this.pageInfo,
                   postcardid: this.postcardid
