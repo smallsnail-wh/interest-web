@@ -7,7 +7,7 @@
             id="interest-editor"
             ref="upload"
             :headers="headers"
-            action="/interest/upload/picture"
+            action="/api/interest/blog/picture"
             name="picture"
             :show-upload-list="false"
             :before-upload="handleBeforeUpload"

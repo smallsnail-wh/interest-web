@@ -3,7 +3,7 @@
         <div class="cotent">
             <Icon type="md-checkmark-circle" size="40" color="#19be6b"/>
             <h3>文章发布成功</h3>
-            <router-link :to="('/article/user')">
+            <router-link :to="('/blog/user')">
               <h4 class="link-text">返回我的文章</h4>
             </router-link>
         </div>

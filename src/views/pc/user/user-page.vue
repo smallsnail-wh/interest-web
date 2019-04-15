@@ -50,12 +50,12 @@
           </div>
           <dl class="list-user-other">
             <dt>
-              <a :href="$store.state.userUrlPre+item.userid" target="_blank">
+              <a :href="$store.state.userUrlPre+item.userId" target="_blank">
                   <img :src="item.userHeadImg" style="width: 25px;height: 25px;border-radius: 100%;">
               </a>
             </dt>
             <dd>
-              <a :href="$store.state.userUrlPre+item.userid" target="_blank">
+              <a :href="$store.state.userUrlPre+item.userId" target="_blank">
                   {{item.userName}}
               </a>
             </dd>
@@ -133,7 +133,7 @@ export default {
   	getUserInfo(){
   		this.axios({
 	        method: "get",
-	        url: "/public/users/user/info",
+	        url: "/interest/user/public/users/user/info",
           params: {
             userId: this.userId
           }
@@ -152,7 +152,7 @@ export default {
     getArticle(e) {
       this.axios({
         method: "get",
-        url: "/public/users/user/"+this.userId+"/articles",
+        url: "/interest/blog/public/articles/user/"+this.userId,
         params: {
           page: e.pageInfo.page,
           pageSize: e.pageInfo.pageSize

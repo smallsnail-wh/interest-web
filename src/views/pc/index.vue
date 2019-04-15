@@ -307,17 +307,15 @@ export default {
     },
     menuSelect(e) {
       if (e == 1) {
-        this.$router.push("/page/user");
+        this.$router.push("/user");
       } else if (e == 2) {
         this.emailModal = true;
       } else if (e == 31) {
-        this.$router.push("/article/create");
+        this.$router.push("/blog/create");
       } else if (e == 32) {
-        this.$router.push("/article/user");
+        this.$router.push("/blog/user");
       } else if (e == 4) {
         this.$store.dispatch("users/loginOUt", { router: this.$router });
-      } else if (e == 5) {
-        this.$router.push("/base");
       } else if (e == 6) {
         this.$router.push("/login");
       } else if (e == "interest") {
@@ -467,7 +465,7 @@ export default {
 
     toMessages() {
       console.log("to messages page");
-      this.$router.push({ path: "/page/messages" });
+      this.$router.push({ path: "/messages" });
     }
   }
 };

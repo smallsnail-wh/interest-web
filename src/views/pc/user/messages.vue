@@ -1,23 +1,23 @@
 <template>
     <div class="unread-msg-wrapper">
         <Card v-for="(item, index) in messages" :key="item.id" class="msg-card-item">
-            <div @click="read(item.id,item.isread)">
+            <div @click="read(item.id,item.isRead)">
                 <div class="synopsis">
-                    <Avatar shape="square" icon="person" :src="item.replyUserHeadimg" :title="item.replyUsername" />
+                    <Avatar shape="square" icon="person" :src="item.replyUserHeadImg" :title="item.replyUserName" />
 
-                    <span class="user-name">{{item.replyUsername}}</span>
-                    <span class="time">{{dateGet(item.replytime)}}</span>
+                    <span class="user-name">{{item.replyUserName}}</span>
+                    <span class="time">{{dateGet(item.replyTime)}}</span>
                     <span>回复：</span>
 
-                    <router-link v-if="item.form == 0" :to="{ path: 'card/' + item.toId }">{{item.title}}</router-link>
-                    <router-link v-if="item.form == 1" :to="{ path: '/article/detail/' + item.toId }">{{item.title}}</router-link>
+                    <router-link v-if="item.form == 0" :to="{ path: '/bbs/card/' + item.toId }">{{item.title}}</router-link>
+                    <router-link v-if="item.form == 1" :to="{ path: '/blog/detail/' + item.toId }">{{item.title}}</router-link>
                 </div>
                 <Divider />
                 <div class="reply-content">
                     <p>{{item.replyContent}}</p>
                 </div>
 
-                <Icon v-if="item.isread == 0" class="unread-symbol" type="md-eye" color="red" size="20"></Icon>
+                <Icon v-if="item.isRead == 0" class="unread-symbol" type="md-eye" color="red" size="20"></Icon>
             </div>
         
         </Card>
@@ -45,7 +45,7 @@ export default {
     let _this = this;
     this.axios
       .get(
-        "/msgrecords/user?pageSize= " + _this.pageSize + "&page=" + _this.page
+        "/interest/message/msg-records/user?pageSize= " + _this.pageSize + "&page=" + _this.page
       )
       .then(function(response) {
         let data = response.data.data;
@@ -65,7 +65,7 @@ export default {
       let _this = this;
       this.axios({
         method: "put",
-        url: "/msgrecords/read/",
+        url: "/interest/message/messages/message/read",
         params: {
           msgRecordId: id
         }
@@ -77,7 +77,7 @@ export default {
             });
 
             let item = _this.messages[index];
-            item.isread = 1;
+            item.isRead = 1;
 
             _this.messages.splice(index, 1, item);
           }.bind(this)
@@ -85,27 +85,13 @@ export default {
         .catch(function(error) {
           _this.$Message.error("已读失败，请稍后重试");
         });
-      // this.axios.put('/msgrecords/read/',{
-      //     msgRecordId: id
-      // }).then(function() {
-      //     let index = _this.messages.findIndex(function(item) {
-      //         return item.id == id;
-      //     });
-
-      //     let item = _this.messages[index];
-      //     item.isread = 1;
-
-      //     _this.messages.splice(index, 1, item);
-      // }).catch(function (error) {
-      //     _this.$Message.error('已读失败，请稍后重试');
-      // });
     },
     pageSearch(e) {
       this.page = e - 1;
       let _this = this;
     this.axios
       .get(
-        "/msgrecords/user?pageSize= " + _this.pageSize + "&page=" + _this.page
+        "/interest/message/msg-records/user?pageSize= " + _this.pageSize + "&page=" + _this.page
       )
       .then(function(response) {
         let data = response.data.data;

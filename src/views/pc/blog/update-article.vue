@@ -85,7 +85,7 @@ export default {
   	getArticle(e) {
 	    this.axios({
 	        method: "get",
-	        url: "/public/articles/article/" + e
+	        url: "/interest/blog/public/articles/article/" + e
 	    }).then(
 	        function (response) {
 	            this.entitySet(response.data.data);
@@ -121,7 +121,7 @@ export default {
       this.modal_loading =  true;
       this.axios({
         method: "put",
-        url: "/article",
+        url: "/interest/blog/article",
         data: {
         	id : this.articleId,
         	title : this.entity.title,
@@ -135,7 +135,7 @@ export default {
               setTimeout(() => {
                   this.modal_loading = false;
                   this.modal = false;
-                  this.$router.push("/article/create/success");
+                  this.$router.push("/blog/create/success");
               }, 2000);
             }else if(response.data.status == "6001"){
               this.modal_loading = false;

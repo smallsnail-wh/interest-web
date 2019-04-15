@@ -107,7 +107,7 @@ export default {
       this.modal_loading =  true;
       this.axios({
         method: "post",
-        url: "/article",
+        url: "/interest/blog/articles/article",
         data: this.entity
       }).then(
           function(response) {
@@ -117,7 +117,7 @@ export default {
               setTimeout(() => {
                   this.modal_loading = false;
                   this.modal = false;
-                  this.$router.push("/article/create/success");
+                  this.$router.push("/blog/create/success");
               }, 2000);
             }else if(response.data.status == "6001"){
               this.modal_loading = false;

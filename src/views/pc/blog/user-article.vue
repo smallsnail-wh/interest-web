@@ -41,7 +41,7 @@
     <div class="content-background page-right">
       <Card v-for="(item,index) in articleList" :key="index" class="card-body">
           <div class="title">
-            <router-link :to="('/article/detail/'+item.id)">
+            <router-link :to="('/blog/detail/'+item.id)">
               <span class="tirtleFont lineThrou ">{{item.title}}</span>
             </router-link>
           </div>
@@ -50,12 +50,12 @@
           </div>
           <dl class="list-user-other">
             <dt>
-              <a :href="$store.state.userUrlPre+item.userid" target="_blank">
+              <a :href="$store.state.userUrlPre+item.userId" target="_blank">
                   <img :src="item.userHeadImg" style="width: 25px;height: 25px;border-radius: 100%;">
               </a>
             </dt>
             <dd>
-              <a :href="$store.state.userUrlPre+item.userid" target="_blank">
+              <a :href="$store.state.userUrlPre+item.userId" target="_blank">
                   {{item.userName}}
               </a>
             </dd>
@@ -64,14 +64,14 @@
             <div class="interval"></div>
             <div class="read-comment-info">
               <dd>
-                <router-link :to="('/article/detail/'+item.id)">
+                <router-link :to="('/blog/detail/'+item.id)">
                   <span class="text">阅读数</span>
                   <span class="num">{{item.clickRate}}</span>
                 </router-link>
               </dd>
               <div class="interval"></div>
               <dd>
-                <router-link :to="('/article/detail/'+item.id)">
+                <router-link :to="('/blog/detail/'+item.id)">
                   <span class="text">评论数</span>
                   <span class="num">{{item.commentCount}}</span>
                 </router-link>
@@ -79,7 +79,7 @@
             </div>
             <div class="right-info">
               <dd>
-                <router-link :to="('/article/update/'+item.id)">
+                <router-link :to="('/blog/update/'+item.id)">
                   <span class="text">修改</span>
                 </router-link>
               </dd>
@@ -158,7 +158,7 @@ export default {
   	getUserInfo(){
   		this.axios({
 	        method: "get",
-	        url: "/general/users/user/info"
+	        url: "/interest/user/general/users/user/info"
 	    })
 	    .then(
           function(response) {
@@ -174,7 +174,7 @@ export default {
     getArticle(e) {
       this.axios({
         method: "get",
-        url: "/general/users/user/articles",
+        url: "/interest/blog/general/articles/user",
         params: {
           page: e.pageInfo.page,
           pageSize: e.pageInfo.pageSize
@@ -203,7 +203,7 @@ export default {
     delArticle() {
     	this.axios({
 	        method: "delete",
-	        url: "/articles/article/"+this.delArticleId
+	        url: "/interest/blog/articles/article/"+this.delArticleId
 	      })
 	        .then(
 	          function(response) {
