@@ -38,7 +38,7 @@
         v-model="show"
         :width="200"
         :height="200"
-        url="/interest/general/users/user/head-img/upload"
+        url="/api/interest/blog/picture/user/head-img"
         :headers="headers"
         img-format="png"
         @crop-upload-success="cropUploadSuccess"
@@ -80,7 +80,7 @@ export default {
     cropUploadSuccess(jsonData, field){
       this.axios({
         method: "patch",
-        url: "/general/users/user/headImg",
+        url: "/interest/user/general/users/user/headImg",
         params: {
           headImg: jsonData.data
         }
@@ -111,7 +111,7 @@ export default {
   	getUserInfo(){
   		this.axios({
 	        method: "get",
-	        url: "/general/users/user/info"
+	        url: "/interest/user/general/users/user/info"
 	    })
 	    .then(
           function(response) {
@@ -128,7 +128,7 @@ export default {
   	updateInfo(){
   		this.axios({
   			method: "put",
-  			url: "/general/users/user/info",
+  			url: "/interest/user/general/users/user/info",
   			data: this.userInfo
   		})
   		.then(
